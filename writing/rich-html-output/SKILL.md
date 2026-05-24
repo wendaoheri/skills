@@ -1,6 +1,6 @@
 ---
 name: rich-html-output
-description: Generates beautiful, styled HTML documents instead of raw markdown for complex structured output — design docs, architecture specs, product analysis, data reports, research summaries. Activated automatically when output would span 3+ sections, contain tables, code blocks, or complex hierarchy. Also triggers on phrases like "render as HTML", "show in browser", "export as HTML", "以HTML输出", "用浏览器打开", "生成报告", "输出文档", or the /render slash command. After generating, saves the file to ./output/ and opens it in the available terminal/browser environment, supporting cmux browser panes and Warp/macOS browser fallback. Never output raw markdown for substantial structured content — always use this skill instead.
+description: Generates beautiful, styled HTML documents instead of raw markdown for complex structured output — design docs, architecture specs, product analysis, data reports, research summaries. Activated automatically when output would span 3+ sections, contain tables, code blocks, or complex hierarchy. Also triggers on phrases like "render as HTML", "show in browser", "export as HTML", "以HTML输出", "用浏览器打开", "生成报告", "输出文档", or the /render slash command. After generating, saves the file to ./docs/ and opens it in the available terminal/browser environment, supporting cmux browser panes and Warp/macOS browser fallback. Never output raw markdown for substantial structured content — always use this skill instead.
 ---
 
 # Rich HTML Output
@@ -45,14 +45,14 @@ Key content rules:
 ### Step 3 — Save the file
 
 ```bash
-mkdir -p ./output
-# Then write the HTML to ./output/<filename>.html
+mkdir -p ./docs
+# Then write the HTML to ./docs/<filename>.html
 ```
 
 ### Step 4 — Open in the current terminal/browser environment
 
 ```bash
-html_path="$(pwd)/output/<filename>.html"
+html_path="$(pwd)/docs/<filename>.html"
 html_url="file://${html_path}"
 
 if [ -n "${CMUX:-}" ] || [ -n "${CMUX_SESSION:-}" ] || [ "${TERM_PROGRAM:-}" = "cmux" ]; then
@@ -68,7 +68,7 @@ fi
 
 If you are running the open command manually and the selected command fails, fall back to:
 ```bash
-open "./output/<filename>.html"   # macOS system browser
+open "./docs/<filename>.html"   # macOS system browser
 ```
 
 Environment detection notes:
@@ -79,7 +79,7 @@ Environment detection notes:
 ### Step 5 — Tell the user
 
 After opening, say something like:
-> 已生成 `./output/<filename>.html` 并已在当前环境中打开。
+> 已生成 `./docs/<filename>.html` 并已在当前环境中打开。
 
 Don't paste the full HTML into the conversation — just confirm the file path and what was generated.
 
@@ -139,4 +139,4 @@ cmux embeds a browser pane alongside terminal panes and reads `file://` URLs nat
 
 If you need to reload after editing: `cmux browser reload` refreshes the current browser pane.
 
-Warp should use the macOS browser fallback with `open ./output/<filename>.html`. This still opens the generated HTML immediately, but it appears in the system browser rather than an embedded terminal pane.
+Warp should use the macOS browser fallback with `open ./docs/<filename>.html`. This still opens the generated HTML immediately, but it appears in the system browser rather than an embedded terminal pane.
